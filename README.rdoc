@@ -1,0 +1,36 @@
+= zip_meta
+
+zip_meta is a Rails plugin that supplies a simple "zip_meta" helper method to your app's controllers and views that, when passed a US zip code (either as a string or a fixnum), gives you a hash of the following associated meta info:
+
+* city (String)
+* state (String)
+* latitude (Float)
+* longitude (Float)
+* timezone (Integer)  
+
+The plugin queries a table populated with zip code meta info, and you'll need to run a migration (see section below) to create and populate this table.  This gem was written to solve an issue encountered during the ongoing development of {GoodTix}[http://goodtix.org].
+
+== Installation
+
+To use this gem in your Rails app, add an appropriate entry to your Gemfile:
+
+  gem 'zip_meta', :git => 'git@github.com:nzaillian/zip_meta.git'
+  
+The zip_meta method queries a database table populated with the contents of the 'zipcodes.csv' file (which can be found in zip_meta/lib/data) originally published by CivicSpace Labs in 2004.  You'll need to generate and run a migration to create and populate this table.  To do so, run:
+
+  rails generate zip_meta_migration && rake db:migrate
+
+The zipcodes.csv file whose data the migration loads into the zip_meta table contains > 43,000 rows, so be patient (on my 2009 MacBook Pro, the migration takes ~11 seconds to run).
+
+Once you've run the migration, you'll be able to use the "zip_meta" method from within your controllers and views to query meta info for any US zip code!
+
+== Example Usage
+
+  class MapItemsController < ApplicationController
+    # (...assuming we have a MapItem model with a string or fixnum "zipcode" property...)
+    def show
+      @map_item = MapItem.find(params[:id])
+      @location_details = zip_meta(@map_item.zipcode)
+      # => {:zip=>"10003", :city=>"New York", :state=>"NY", :latitude=>40.732509, :longitude=>-73.98935, :timezone=>-5}
+    end
+  end  
