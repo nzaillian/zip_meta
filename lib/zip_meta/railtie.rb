@@ -1,4 +1,5 @@
 require 'rails'
+require File.expand_path('../../core_ext/string', __FILE__)
 require File.expand_path('../util', __FILE__)
 require File.expand_path('../migration_util', __FILE__)
 
