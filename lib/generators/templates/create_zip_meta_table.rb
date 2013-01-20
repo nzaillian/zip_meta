@@ -1,6 +1,6 @@
 class CreateZipMetaTable < ActiveRecord::Migration
   def self.up
-    create_table :zip_meta do |t|
+    create_table :zip_meta, :force => true do |t|
       t.string :zip
       t.string :city
       t.string :state

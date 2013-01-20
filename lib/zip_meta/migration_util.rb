@@ -1,3 +1,5 @@
+require File.expand_path('../../core_ext/string', __FILE__)
+
 module ZipMeta
   # Contains a static "load_zipcode_data" method that parses 
   # the "zipcodes.csv" file and loads each row into 
@@ -18,12 +20,17 @@ module ZipMeta
       rows.delete_at(0)
 
       connection = ActiveRecord::Base.connection
-
-      rows.each do |row|
+            
+      len = rows.length      
+      rows.each_with_index do |row, index|
+        vals = "('#{row[0]}', '#{row[1].sql_escape_single_quotes}', '#{row[2].sql_escape_single_quotes}', #{row[3]}, #{row[4]}, #{row[5]})"
+        
         query = "INSERT INTO zip_meta(#{keys[0]}, #{keys[1]}, #{keys[2]}, #{keys[3]}, #{keys[4]}, #{keys[5]}) " + \
-                 "VALUES ('#{row[0]}', '#{row[1].sql_escape_single_quotes}', '#{row[2].sql_escape_single_quotes}', #{row[3]}, #{row[4]}, #{row[5]})"
+        "VALUES #{vals}"        
         connection.execute(query)
+
+        puts "adding zip meta info row #{index} of #{len}\n"        
       end
-    end
+    end  
   end
 end
