@@ -1,4 +1,4 @@
-require File.expand_path('../../core_ext/string', __FILE__)
+require 'active_record'
 
 module ZipMeta
   # Contains implementation of the "zip_meta" method, which queries the
@@ -7,8 +7,8 @@ module ZipMeta
     # Implementation of the "zip_meta" method, which queries the
     # zip_meta table for a record corresponding to the zipcode passed in.
     def zip_meta(zipcode)
-      connection = ActiveRecord::Base.connection
-      result_set = connection.select_all("SELECT * FROM zip_meta WHERE zip='#{zipcode}'")
+      connection = ::ActiveRecord::Base.connection
+      result_set = connection.select_all("SELECT * FROM zip_meta WHERE zip=#{quote(zipcode)}")
       if result_set.count == 0 
         nil
       else

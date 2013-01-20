@@ -14,6 +14,7 @@ module ZipMeta
     initializer "zip_meta.configure_rails_initialization" do
       ActionController::Base.send(:include, ZipMeta::Util)
       ActionView::Base.send(:include, ZipMeta::Util)
+      ActiveRecord::Base.send(:include, ZipMeta::Util)
     end
   end
 end
