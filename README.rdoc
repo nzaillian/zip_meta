@@ -8,13 +8,13 @@ zip_meta is a Rails plugin that supplies a simple "zip_meta" helper method to yo
 * longitude (Float)
 * timezone (Integer)  
 
-The plugin queries a table populated with zip code meta info, and you'll need to run a migration (see section below) to create and populate this table.  This gem was written to solve an issue encountered during the ongoing development of {GoodTix}[http://goodtix.org].
+The plugin queries a table populated with zip code meta info, and you'll need to run a migration (see section below) to create and populate this table.  This gem was written to solve an issue encountered during the ongoing development of {Secure Scheduling}[http://securescheduling.com].
 
 == Installation
 
 To use this gem in your Rails app, add an appropriate entry to your Gemfile:
 
-  gem 'zip_meta', :git => 'git@github.com:nzaillian/zip_meta.git'
+  gem 'zip_meta'
   
 The zip_meta method queries a database table populated with the contents of the 'zipcodes.csv' file (which can be found in zip_meta/lib/data) originally published by CivicSpace Labs in 2004.  You'll need to generate and run a migration to create and populate this table.  To do so, run:
 
@@ -34,3 +34,10 @@ Once you've run the migration, you'll be able to use the "zip_meta" method from 
       # => {:zip=>"10003", :city=>"New York", :state=>"NY", :latitude=>40.732509, :longitude=>-73.98935, :timezone=>-5}
     end
   end  
+
+== Running Tests
+  This gem uses Rspec for testing.  To run tests:
+
+    $ rspec spec
+
+  from the project's root directory  
